@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Submit your daily project report quickly and securely."
+    />
+
+    <title>Daily Report Submission</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --dark: #0f172a;
+        --text: #334155;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --background: #f8fafc;
+        --white: #ffffff;
+        --success: #059669;
+        --error: #dc2626;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, #dbeafe 0, transparent 35%),
+          linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+        color: var(--dark);
+        padding: 30px 16px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 850px;
+        margin: 0 auto;
+      }
+
+      /* =========================
+           HEADER
+        ========================= */
+
+      .top-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 27px;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: var(--primary);
+        color: white;
+        font-size: 20px;
+      }
+
+      .top-header p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* =========================
+           CARD
+        ========================= */
+
+      .card {
+        background: var(--white);
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+      }
+
+      .card-header {
+        background: var(--dark);
+        color: white;
+        padding: 28px 30px;
+      }
+
+      .card-header h1 {
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 7px;
+      }
+
+      .card-header p {
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      form {
+        padding: 30px;
+      }
+
+      /* =========================
+           FORM
+        ========================= */
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .full-width {
+        grid-column: span 2;
+      }
+
+      label {
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .required {
+        color: var(--error);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 13px 14px;
+        font-family: inherit;
+        font-size: 14px;
+        color: var(--dark);
+        background: #fff;
+        transition: 0.2s ease;
+      }
+
+      input {
+        min-height: 48px;
+      }
+
+      textarea {
+        min-height: 180px;
+        resize: vertical;
+        line-height: 1.6;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #94a3b8;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+
+      /* =========================
+           SUBMIT
+        ========================= */
+
+      .submit-section {
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid var(--border);
+      }
+
+      .submit-btn {
+        width: 100%;
+        min-height: 52px;
+        border: none;
+        border-radius: 13px;
+        background: var(--primary);
+        color: white;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .submit-btn:hover:not(:disabled) {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      /* =========================
+           MESSAGE
+        ========================= */
+
+      .message {
+        display: none;
+        margin-bottom: 20px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .message.success {
+        display: block;
+        color: #065f46;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+      }
+
+      .message.error {
+        display: block;
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+      }
+
+      /* =========================
+           FOOTER
+        ========================= */
+
+      .footer {
+        text-align: center;
+        margin-top: 18px;
+        color: #64748b;
+        font-size: 12px;
+      }
+
+      /* =========================
+           MOBILE
+        ========================= */
+
+      @media (max-width: 700px) {
+        body {
+          padding: 20px 12px;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .full-width {
+          grid-column: span 1;
+        }
+
+        form {
+          padding: 22px 18px;
+        }
+
+        .card-header {
+          padding: 24px 20px;
+        }
+
+        .card-header h1 {
+          font-size: 21px;
+        }
+
+        .brand {
+          font-size: 23px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- HEADER -->
+
+      <header class="top-header">
+        <div class="brand">
+          <div class="brand-icon">✓</div>
+          Daily Reports
+        </div>
+
+        <p>Submit your daily project progress securely.</p>
+      </header>
+
+      <!-- FORM CARD -->
+
+      <main class="card">
+        <div class="card-header">
+          <h1>Submit Daily Report</h1>
+
+          <p>Please provide today's project update.</p>
+        </div>
+
+        <form id="reportForm">
+          <div
+            id="message"
+            class="message"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <div class="form-grid">
+            <!-- NAME -->
+
+            <div class="form-group">
+              <label for="name">
+                Full Name
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                maxlength="100"
+                required
+              />
+            </div>
+
+            <!-- DATE -->
+
+            <div class="form-group">
+              <label for="date">
+                Report Date
+                <span class="required">*</span>
+              </label>
+
+              <input type="date" id="date" name="date" required />
+            </div>
+
+            <!-- PROJECT -->
+
+            <div class="form-group full-width">
+              <label for="project_name">
+                Project Name
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="project_name"
+                name="project_name"
+                placeholder="Enter project name"
+                maxlength="150"
+                required
+              />
+            </div>
+
+            <!-- REPORT -->
+
+            <div class="form-group full-width">
+              <label for="report">
+                Daily Report
+                <span class="required">*</span>
+              </label>
+
+              <textarea
+                id="report"
+                name="report"
+                placeholder="Describe the work completed today, progress, issues, and next steps..."
+                maxlength="5000"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+
+          <div class="submit-section">
+            <button type="submit" id="submitBtn" class="submit-btn">
+              Submit Report
+            </button>
+          </div>
+        </form>
+      </main>
+
+      <footer class="footer">© 2026 Daily Reports. All rights reserved.</footer>
+    </div>
+
+    <script>
+      "use strict";
+
+      const form = document.getElementById("reportForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const messageBox = document.getElementById("message");
+
+      const dateInput = document.getElementById("date");
+
+      /* =========================
+       SET TODAY'S DATE
+    ========================= */
+
+      const today = new Date();
+
+      const year = today.getFullYear();
+
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+
+      const day = String(today.getDate()).padStart(2, "0");
+
+      dateInput.value = `${year}-${month}-${day}`;
+
+      /* =========================
+       MESSAGE HELPER
+    ========================= */
+
+      function showMessage(message, type) {
+        messageBox.className = "message " + type;
+
+        messageBox.textContent = message;
+
+        messageBox.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+
+      /* =========================
+       SUBMIT FORM
+    ========================= */
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        /* Clear old message */
+
+        messageBox.className = "message";
+
+        messageBox.textContent = "";
+
+        /* Browser validation */
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+
+          return;
+        }
+
+        /* Disable button */
+
+        submitBtn.disabled = true;
+
+        submitBtn.textContent = "Submitting...";
+
+        try {
+          /*
+           * Create FormData directly from the form.
+           */
+
+          const formData = new FormData(form);
+
+          /*
+           * Extra FormSubmit settings.
+           */
+
+          formData.append(
+            "_subject",
+            `Daily Report - ${formData.get("project_name")}`,
+          );
+
+          formData.append("_captcha", "false");
+
+          formData.append("_template", "table");
+
+          /*
+           * Send directly to FormSubmit.
+           *
+           * No Flask.
+           * No SMTP.
+           * No API key.
+           */
+
+          const response = await fetch(
+            "https://formsubmit.co/ajax/ghanshamchaudhari2004@gmail.com",
+            {
+              method: "POST",
+              body: formData,
+              headers: {
+                Accept: "application/json",
+              },
+            },
+          );
+
+          /*
+           * Read response safely.
+           */
+
+          let result = {};
+
+          try {
+            result = await response.json();
+          } catch (jsonError) {
+            result = {};
+          }
+
+          /* =========================
+               SUCCESS
+            ========================= */
+
+          if (response.ok) {
+            showMessage(
+              "✓ Report submitted successfully! Your report has been sent.",
+              "success",
+            );
+
+            form.reset();
+
+            /*
+             * Keep today's date after reset.
+             */
+
+            dateInput.value = `${year}-${month}-${day}`;
+          } else {
+
+          /* =========================
+               ERROR
+            ========================= */
+            console.error("FormSubmit Error:", result);
+
+            showMessage(
+              result.message || "Submission failed. Please try again.",
+              "error",
+            );
+          }
+        } catch (error) {
+          console.error("Network Error:", error);
+
+          showMessage(
+            "Unable to submit the report. Please check your internet connection and try again.",
+            "error",
+          );
+        } finally {
+          submitBtn.disabled = false;
+
+          submitBtn.textContent = "Submit Report";
+        }
+      });
+    </script>
+  </body>
+</html>
